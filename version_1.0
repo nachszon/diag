@@ -1,0 +1,162 @@
+--diag.lua
+--Artur Lipa
+--02.06.2021
+--[[program wczytuje tablicę dwuwymiarową o kształcie kwadratu (równa liczba wierszy i kolumn) - wtedy możliwa jest przekątna
+Wylicza minimalne wartości na obydwu przekątnych, a następnie oblicza średnią arytmetyczną tych dwóch wartości
+Dodatkowo prezentuje trzeci co do wielkości maksymalny element całej tablicy
+]]--
+function func_diag(tab)
+    
+    --inicjalizacja tablicy jednowymiarowej, która przechowa wartości przekątnej lewa-prawa
+    tab_l_p={}
+    
+    --inicjalizacja tablicy jednowymiarowej, która przechowa wartości przekątnej prawa-lewa
+    tab_p_l={}
+    
+    --inicjalizacja tablicy jednowymiarowej, która przechowa wszystkie wartości glownej tablicy dwuwymiarowej
+    tab_single={}
+    
+    --ponieważ jest to tablica "kwadratowa" ilość wierszy równa jest ilości kolumn
+    max_wiersz=#tab
+    max_kolumna=max_wiersz
+	
+	--sprawdzenie poprawności wprowadzanych danych
+	--czy ilosc kolumn rowna jest ilosci wierszy
+	--jezeli tak, wartosc zmiennej sprawdz_poprawnosc pozostaje 0
+	--jezeli nie, wartosc zmiennej sprawdz_poprawnosc bedzie wieksza od 0
+	
+	sprawdz_poprawnosc=0
+	
+	for wiersz=1,max_wiersz do
+	
+	if #tab~=#tab[wiersz] then
+	--ponizsza instrukcja tylko na poziomie developmentu
+	--sprawdz_poprawnosc=sprawdz_poprawnosc+1
+	print ("Tablica nie ma ksztaltu kwadratu\nWymagana ta sama ilosc kolumn i wierszy")
+	do return end
+	end
+	
+	end
+	
+	
+	--do return end
+    
+    --[[obliczanie przekątnej lewa-prawa]]--
+    
+    --[[wrzucenie wartości przekątnej lewa-prawa do tablicy jednowymiarowej tab_l_p
+    Umieszczenie w tablicy jednowymiarowej jest niezbędne do sortowania - tablicy dwuwymiarowej nie da się posortować 
+    ]]--
+    for wiersz=1,max_wiersz
+    do
+        tab_l_p[wiersz]=tab[wiersz][wiersz]
+        end
+    
+    
+    --sortowanie przekątnej lewa-prawa    
+    table.sort(tab_l_p)
+    
+    --prezentacja posortowanych wartości przekątnej lewa-prawa
+    for wiersz=1,max_wiersz
+    do
+        io.write(tab_l_p[wiersz].." ")
+        end
+    
+    --wyselekcjonowanie minimalnej wartości przekątnej lewa-prawa
+    --będzie to pierwszy element jednowymiarowej tablicy tab_l_p
+    min_element_l_p=tab_l_p[1]
+    
+    --prezentacja minimalnej wartości przekątnej lewa-prawa
+    print ("\nminimalna wartość przekątnej \"lewa-prawa\" to " ..min_element_l_p.."\n")
+    
+    
+    --[[obliczanie przekątnej prawa-lewa
+    wiersze będą inkrementowane, a kolumny dekrementowane
+    wrzucenie wartości przekątnej prawa-lewa do tablicy jednowymiarowej tab_p_l
+    Umieszczenie w tablicy jednowymiarowej jest niezbędne do sortowania - tablicy dwuwymiarowej nie da się posortować 
+    ]]--
+    
+    kolumna=max_kolumna
+    for wiersz=1,max_wiersz do
+        tab_p_l[wiersz]=tab[wiersz][kolumna]
+        kolumna=kolumna-1
+        end
+    
+    --sortowanie przekątnej prawa-lewa    
+    table.sort(tab_p_l)
+    
+    --prezentacja posortowanych wartości przekątnej prawa-lewa
+    for wiersz=1,max_wiersz
+    do
+        io.write(tab_p_l[wiersz].." ")
+        end
+    
+    --wyselekcjonowanie minimalnej wartości przekątnej prawa-lewa
+    --będzie to pierwszy element jednowymiarowej tablicy tab_p_l
+    min_element_p_l=tab_p_l[1]
+    
+    --prezentacja minimalnej wartości przekątnej prawa-lewa
+    print ("\nminimalna wartość przekątnej \"prawa-lewa\" to " ..min_element_p_l.."\n")
+    
+    --Obliczenie średniej arytmetycznej dwóch wielkości: minimalnej przekątnej lewa-prawa oraz minimalnej przekątnej prawa-lewa
+    srednia_aryt=(min_element_p_l+min_element_l_p)/2
+    
+    --prezentacja średniej arytmetycznej dwóch wielkości: minimalnej przekątnej lewa-prawa oraz minimalnej przekątnej prawa-lewa
+    print ("\nsrednia arytmetyczna minimalnej przekątnej \"lewa-prawa\" oraz minimalnej przekątnej \"prawa-lewa\" to " ..srednia_aryt.."\n")
+    
+    --[[w celu obliczenia trzeciego co do wielkości elementu całej tablicy, trzeba wrzucić wszystkie elementy tablicy dwuwymiarowej do tablicy jednowymiarowej]]--
+--przerzucamy dane z tablicy dwywymiarowej do jednowymiarowej
+--wiersz_single to indeks tablicy jednowymiarowej przechowującej dane tablicy wielowymiarowej
+wiersz_single=1
+
+    for wiersz=1,max_wiersz do
+        for kolumna=1,max_kolumna do
+            tab_single[wiersz_single]=tab[wiersz][kolumna]
+            wiersz_single=wiersz_single+1
+            end
+        end
+    
+    --wyliczenie maksymalnej wartości indeksu jednowymiarowej tablicy przechowującej wszystkie elementy tablicy dwuwymiarowej
+    --Będzie to wartość wiersz_single z ostatniej iteracji migrującej dane z tablicy tab do tablicy tab_single pomniejszona o 1
+    max_wiersz_single=wiersz_single-1
+    
+    
+    --[[test prawidłowości tablicy tab_single[] - włączone tylko na poziomie testów]]--
+    --[[for wiersz_single=1,max_wiersz_single do
+        
+        io.write(tab_single[wiersz_single].." ")
+        
+        end ]]--
+    
+    --sortowanie tablicy tab_single
+    table.sort(tab_single)
+    
+    --posortowana tablica jednowymiarowa wszystkich elementów tablicy dwuwymiarowej
+	for wiersz_single=1,max_wiersz_single do
+        
+        io.write(tab_single[wiersz_single].." ")
+        
+        end 
+    
+    --wyliczenie ilości wszystkich elementów w tablicy tab, czyli przeliczenie elementów tablicy jednowymiarowej tab_single
+    max_element=#tab_single
+    
+    --[[test wartości - włączone tylko na poziomie testów]]--
+    --print ("\n"..max_element)
+    
+    --wyliczenie trzeciego co do wielości elementu całej tablicy, czyli trzeci od końca element tablicy tab_single
+    trzeci_element=tab_single[max_element-2]
+    
+    --prezentacja trzeciego co do wielkości elementu całej tablicy
+    print ("\ntrzeci co do wielkości element całej tablicy to " ..trzeci_element.."\n")
+    
+    
+    
+    
+    end
+
+
+
+--wywołanie funkcji z tablicą dwuwymiarową jako parametrem
+func_diag({{0.12, 0.23, 0.17, 0.89, 1.00},{0.83, 0.25, 0.99, 0.46, 0.46},{0.21, 0.00, 0.63, 0.15, 0.71},{0.19, 0.04, 0.23, 0.38, 0.30},{0.38, 0.93, 0.11, 0.53, 0.06}})
+     
+     
