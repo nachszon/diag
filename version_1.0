@@ -1,6 +1,6 @@
 #!/usr/bin/lua
 --diag.lua
---Artur Lipa
+--Nchszon
 --02.06.2021
 --[[program wczytuje tablicę dwuwymiarową o kształcie kwadratu (równa liczba wierszy i kolumn) - wtedy możliwa jest przekątna
 Wylicza minimalne wartości na obydwu przekątnych, a następnie oblicza średnią arytmetyczną tych dwóch wartości
